@@ -1,0 +1,125 @@
+==========================================
+🌎 TRADUCIR DJANGO A ESPAÑOL ARGENTINO 🌎
+==========================================
+
+📋 PASO 1: UBICÁ EL ARCHIVO CORRECTO
+-------------------------------------
+📁 Navegá en VS Code:
+
+   Prueba/
+   ├── 📁 Prueba/
+   │   ├── ⚙️ settings.py  ← 📍 ESTE ES EL ARCHIVO
+   │   ├── 📄 __init__.py
+   │   ├── 🗺️ urls.py
+   │   └── 🌐 wsgi.py
+   └── 📄 manage.py
+
+
+🔍 PASO 2: BUSCÁ LA SECCIÓN DE INTERNACIONALIZACIÓN
+----------------------------------------------------
+📍 Dentro de settings.py, buscá:
+   
+   # Internationalization
+   # https://docs.djangoproject.com/en/6.0/topics/i18n/
+   
+   LANGUAGE_CODE = 'en-us'  👈 🔴 LÍNEA A MODIFICAR.
+   TIME_ZONE = 'UTC'        👈 🔴 LÍNEA A MODIFICAR.
+   USE_I18N = True
+   USE_TZ = True
+
+
+✏️ PASO 3: REALIZÁ LOS CAMBIOS
+-------------------------------
+🟢 ANTES (inglés):
+   LANGUAGE_CODE = 'en-us'
+   TIME_ZONE = 'UTC'
+
+🟡 DESPUÉS (español argentino):
+   LANGUAGE_CODE = 'es-ar'   👈 Español de Argentina.
+   TIME_ZONE = 'America/Argentina/Buenos_Aires'  👈 ⏰ Zona horaria argentina.
+
+
+📖 EXPLICACIÓN DE LOS CAMBIOS
+------------------------------
+🌐 LANGUAGE_CODE = 'es-ar'
+   • 'es' = idioma español.
+   • 'ar' = país Argentina.
+   ✅ Traduce: mensajes, errores, etiquetas, panel admin.
+
+⏰ TIME_ZONE = 'America/Argentina/Buenos_Aires'
+   • Configura la hora oficial de Argentina.
+   ✅ Fechas y horas correctas para el país.
+
+🔄 OTRAS ZONAS HORARIAS DE ARGENTINA:
+   • 'America/Argentina/Cordoba'    (Córdoba).
+   • 'America/Argentina/Mendoza'    (Mendoza).
+   • 'America/Argentina/Salta'      (Salta).
+   • 'America/Argentina/San_Luis'   (San Luis).
+   • 'America/Argentina/Tucuman'    (Tucumán).
+
+
+💾 PASO 4: GUARDAR Y REINICIAR
+--------------------------------
+💾 Guardá el archivo: Ctrl + S
+
+🔄 Si el servidor está corriendo:
+   1. Presioná Ctrl + C  (detiene el servidor).
+   2. Ejecutá: python manage.py runserver  (inicia nuevamente).
+
+
+✅ PASO 5: VERIFICÁ LOS CAMBIOS
+---------------------------------
+🌐 Entrá al panel de administración:
+   http://localhost:8000/admin
+
+👀 Qué deberías ver ahora:
+   • "Iniciar sesión" en lugar de "Login" 👈
+   • "Usuario" y "Contraseña" en español 👈
+   • Mensajes de error en español 👈
+   • Fechas en formato día/mes/año 👈
+
+📝 En la terminal (consola):
+   • Mensajes del sistema en español
+   • "Sistema de comprobación identificó X problemas"
+
+
+🎁 EXTRAS OPCIONALES
+---------------------
+📅 Para formatos más específicos (agregá en settings.py):
+
+   USE_L10N = True  👈 Activa formato local (números, fechas).
+   
+   # Formatos personalizados (opcional):
+   DATE_FORMAT = 'd/m/Y'        # 31/12/2024
+   DATETIME_FORMAT = 'd/m/Y H:i' # 31/12/2024 15:30
+   SHORT_DATE_FORMAT = 'd/m/Y'   # 31/12/24
+
+
+⚠️ NOTAS IMPORTANTES
+---------------------
+🚀 La página de bienvenida (con cohete) NO se traduce
+   Es una página HTML estática de ejemplo.
+
+✅ Los cambios afectan a:
+   ✔️ Panel de administración.
+   ✔️ Mensajes de validación.
+   ✔️ Errores del sistema.
+   ✔️ Formularios automáticos.
+   ✔️ Fechas y horas.
+
+❌ Los cambios NO afectan a:
+   ✖️ Páginas HTML que crees tú mismo.
+   ✖️ Textos escritos directamente en templates.
+
+
+🎯 CÓDIGO FINAL DE LA SECCIÓN MODIFICADA
+-----------------------------------------
+```python
+# Internationalization
+# https://docs.djangoproject.com/en/6.0/topics/i18n/
+
+LANGUAGE_CODE = 'es-ar'  # 🇦🇷 Español argentino
+TIME_ZONE = 'America/Argentina/Buenos_Aires'  # ⏰ Hora Argentina
+
+USE_I18N = True
+USE_TZ = True
