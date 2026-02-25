@@ -1,0 +1,402 @@
+======================================================================
+📱 TUTORIAL COMPLETO: CREACIÓN DE APLICACIÓN "HOLAMUNDO" EN DJANGO 🌍
+======================================================================
+
+📋 SECCIÓN 1: REQUISITOS PREVIOS
+---------------------------------
+✅ Tener Python instalado.
+✅ Tener Django instalado de manera global.
+✅ Tener VS Code como editor.
+✅ Tener un proyecto Django creado (nombre: Prueba).
+✅ Proyecto configurado en español argentino (opcional).
+
+
+
+📋 SECCIÓN 2: ESTRUCTURA INICIAL DEL PROYECTO
+----------------------------------------------
+Antes de comenzar, nuestro proyecto tiene esta estructura:
+
+📁 Prueba/
+├── 📄 manage.py
+└── 📁 Prueba/
+    ├── 📄 __init__.py
+    ├── ⚙️ settings.py
+    ├── 🗺️ urls.py
+    ├── 🌐 wsgi.py
+    └── 🔧 asgi.py
+
+
+
+🚀 SECCIÓN 3: CREAR LA APLICACIÓN
+----------------------------------
+
+PASO 3.1: Abrí la terminal en la carpeta raíz del proyecto.
+
+📂 Ubicate en: D:\...\CursoDesarrolloWebDjango\Prueba>
+
+
+PASO 3.2: Ejecutá el comando para crear la aplicación.
+
+💻 python manage.py startapp HolaMundo
+
+
+PASO 3.3: Verificá la nueva estructura creada.
+   
+📁 Prueba/
+   ├── 📄 manage.py
+   ├── 📁 Prueba/
+   │   ├── 📄 __init__.py
+   │   ├── ⚙️ settings.py
+   │   ├── 🗺️ urls.py
+   │   ├── 🌐 wsgi.py
+   │   └── 🔧 asgi.py
+   └── 📁 HolaMundo/   -->    ✨ (NUEVA CARPETA).
+       ├── 📁 migrations/
+       │   └── 📄 __init__.py
+       ├── 📄 __init__.py
+       ├── 📄 admin.py
+       ├── 📄 apps.py
+       ├── 📄 models.py
+       ├── 📄 tests.py
+       └── 👁️ views.py
+
+
+
+📖 SECCIÓN 4: EXPLICACIÓN DE ARCHIVOS DE LA APLICACIÓN
+-------------------------------------------------------
+
+📁 migrations/      🗃️  Carpeta donde Django guarda el historial de cambios en BD.
+📄 admin.py         👤  Configuración del panel de administración.
+📄 apps.py          ⚙️  Configuración general de la aplicación.
+📄 models.py        📊  Definición de estructuras de datos (tablas).
+📄 tests.py         🧪  Pruebas automáticas.
+📄 views.py         👁️  Lógica de la aplicación (lo más importante ahora).
+
+
+
+
+🔌 SECCIÓN 5: REGISTRAR LA APP EN EL PROYECTO
+----------------------------------------------
+
+PASO 5.1: Abrí 📁 Prueba/📁 Prueba/⚙️ settings.py
+
+
+PASO 5.2: Buscá 🔍 INSTALLED_APPS
+
+
+PASO 5.3: Código ORIGINAL:
+
+   ```python
+   INSTALLED_APPS = [
+       'django.contrib.admin',
+       'django.contrib.auth',
+       'django.contrib.contenttypes',
+       'django.contrib.sessions',
+       'django.contrib.messages',
+       'django.contrib.staticfiles',
+   ]
+
+
+PASO 5.4: Código MODIFICADO:
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'HolaMundo',  # 🆕 AGREGAMOS NUESTRA APLICACIÓN.
+]
+
+
+PASO 5.5: Guardar cambios: 💾 Ctrl + S
+
+📌 Explicación: Al agregar 'HolaMundo' a INSTALLED_APPS, le decimos a Django que nuestra aplicación existe y debe ser reconocida por el proyecto.
+
+
+
+👁️ SECCIÓN 6: CREÁ UNA VISTA (LA LÓGICA DE LA APP)
+---------------------------------------------------
+
+PASO 6.1: Abrí 📁 HolaMundo/👁️ views.py
+
+
+PASO 6.2: Escribí el siguiente código:
+
+from django.shortcuts import HttpResponse
+
+def saludo(request):
+   return HttpResponse("¡Hola Mundo! Esta es mi primera aplicación en Django 🎉")
+
+
+PASO 6.3: Guardar cambios: 💾 Ctrl + S
+
+📌 Explicación línea por línea:
+
+• from django.http import HttpResponse --> 📦 Importamos una herramienta para enviar respuestas HTTP al navegador.
+• def saludo(request): --> 🔧 Definimos una función que recibe la petición del usuario.
+• return HttpResponse("...") --> 📤 Devolvemos un mensaje de texto que el navegador mostrará.
+
+
+
+🗺️ SECCIÓN 7: CREÁ un ARCHIVO DE URLS PARA LA APLICACIÓN
+---------------------------------------------------------
+
+PASO 7.1: Creá un nuevo archivo 📁 HolaMundo/🗺️ urls.py
+
+
+PASO 7.2: Escribí el siguiente código:
+
+from django.urls import path
+from . import views  # Importa las vistas de esta misma carpeta.
+
+# Definimos las URLs de nuestra aplicación.
+urlpatterns = [
+    # URL vacía ejecuta la vista 'saludo'.
+    path('', views.saludo, name='saludo'),
+]
+
+
+PASO 7.3: Guardá los cambios: 💾 Ctrl + S
+
+📌 Explicación:
+
+• from . import views --> El punto (.) significa "la misma carpeta". Importamos views.py.
+• path('', views.saludo) --> 🔗 Asocia la URL raíz de la app con la función saludo.
+• name='saludo' --> 🏷️ Nombre para identificar esta URL.
+
+
+
+🔗 SECCIÓN 8: CONECTÁ LA APP CON EL PROYECTO PRINCIPAL
+-------------------------------------------------------
+
+PASO 8.1: Abrí 📁 Prueba/📁 Prueba/🗺️ urls.py (el del proyecto)
+
+
+PASO 8.2: Código ORIGINAL:
+
+from django.contrib import admin
+from django.urls import path
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+]
+
+
+PASO 8.3: Código MODIFICADO:
+
+from django.contrib import admin
+from django.urls import path, include  # 🆕 IMPORTAMOS 'include'.
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    # Cuando alguien visite /hola/, incluye URLs de HolaMundo.
+    path('hola/', include('HolaMundo.urls')),  # 🆕 NUEVA LÍNEA.
+]
+
+
+PASO 8.4: Guardá los cambios: 💾 Ctrl + S
+
+📌 Explicación:
+
+• include('HolaMundo.urls') --> 🔗 Incluye todas las URLs definidas en HolaMundo/urls.py.
+• 'hola/' --> 🌐 Prefijo de URL: http://localhost:8000/hola/
+
+
+
+🚀 SECCIÓN 9: PROBÁ LA APLICACIÓN
+-----------------------------------
+
+PASO 9.1: En terminal (carpeta raíz), iniciá el servidor:
+
+💻 python manage.py runserver
+
+
+PASO 9.2: Observá el mensaje en terminal:
+
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+You have 18 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+Run 'python manage.py migrate' to apply them.
+February 16, 2026 - 20:15:30
+Django version 6.0.1, using settings 'Prueba.settings'
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+
+📌 NOTA: El mensaje de migraciones es NORMAL y no afecta nuestra prueba.
+
+
+PASO 9.3: Abrí el navegador 🌐 e ingresá:
+
+🔗 http://localhost:8000/hola/
+
+
+PASO 9.4: RESULTADO ESPERADO:
+
+¡Hola Mundo! Esta es mi primera aplicación en Django 🎉
+
+
+
+✅ SECCIÓN 10: VERIFICACIONES ADICIONALES
+------------------------------------------
+
+🔍 Probá otras URLs:
+
+• http://localhost:8000/ --> ⚠️ Error 404 (Not Found) - Normal, no definimos la raíz
+• http://localhost:8000/admin/ --> 🔐 Página de login del panel administrativo.
+
+🔄 Verificá auto-reload:
+
+• Sin detener servidor, modificá mensaje en views.py
+• 💾 Guardá y recargá la página → El cambio aparece automáticamente.
+
+
+
+📁 SECCIÓN 11: ESTRUCTURA FINAL DEL PROYECTO
+--------------------------------------------
+
+📁 Prueba/
+├── 📄 manage.py
+├── 📁 Prueba/
+│ ├── 📄 init.py
+│ ├── ⚙️ settings.py --> ✨ Modificado: agregamos 'HolaMundo'.
+│ ├── 🗺️ urls.py --> ✨ Modificado: agregamos path('hola/', include(...)).
+│ ├── 🌐 wsgi.py
+│ └── 🔧 asgi.py
+└── 📁 HolaMundo/ --> ✨ NUEVA APLICACIÓN.
+├── 📁 migrations/
+│ └── 📄 init.py
+├── 📄 init.py
+├── 📄 admin.py
+├── 📄 apps.py
+├── 📄 models.py
+├── 📄 tests.py
+├── 🗺️ urls.py --> ✨ NUEVO: creado por nosotros.
+└── 👁️ views.py --> ✨ Modificado: agregamos función saludo.
+
+
+
+📝 SECCIÓN 12: COMANDOS UTILIZADOS
+----------------------------------
+
+⚡ Crea aplicación: python manage.py startapp HolaMundo
+🚀 Inicia servidor: python manage.py runserver
+⏹️ Detiene servidor: Ctrl + C
+
+
+
+🎯 SECCIÓN 13: CONCEPTOS IMPORTANTES
+-------------------------------------
+
+🏗️ Proyecto vs Aplicación:
+• Proyecto: Contenedor principal (Prueba). Puede tener múltiples apps.
+• Aplicación: Módulo con funcionalidad específica (HolaMundo).
+
+👁️ Vista (View):
+• Función Python que recibe petición web y devuelve respuesta.
+• Se define en views.py.
+
+🗺️ URLconf:
+• Sistema de enrutamiento de Django.
+• Define qué vista se ejecuta para cada URL.
+
+🔌 include():
+• Función que incluye URLs de una app dentro del proyecto.
+• Mantiene el código organizado y modular.
+
+🔄 Flujo de una petición:
+
+1.👤 Usuario ingresa: http://localhost:8000/hola/.
+
+2.🔍 Django mira en Prueba/urls.py → encuentra 'hola/'.
+
+3.🔍 Django busca en HolaMundo/urls.py (por el include).
+
+4.🎯 Encuentra '' (URL vacía) asociada a views.saludo.
+
+5.⚙️ Ejecuta la función saludo() en views.py.
+
+6.📤 La función devuelve un HttpResponse con el mensaje.
+
+7.🖥️ El navegador muestra el mensaje.
+
+
+
+💡 SECCIÓN 14: NOTAS IMPORTANTES
+---------------------------------
+
+⚠️ El mensaje de migraciones NO es un error:
+   • Es solo un aviso de cambios pendientes en BD.
+   • Podemos ignorarlo o ejecutar 'python manage.py migrate'.
+
+⚠️ El servidor de desarrollo es solo para pruebas:
+   • No usar en producción.
+   • Se actualiza automáticamente al guardar cambios.
+
+⚠️ Los nombres deben coincidir exactamente:
+   • 'HolaMundo' en INSTALLED_APPS debe ser igual al nombre de la carpeta.
+   • Las importaciones usan nombres exactos de archivos.
+
+
+
+🎯 SECCIÓN 15: PRÓXIMOS PASOS SUGERIDOS
+----------------------------------------
+
+1.✏️ Modificar el mensaje en views.py.
+
+2.➕ Agregar más vistas y URLs.
+
+3.🎨 Usar templates HTML.
+
+4.🗃️ Conectar base de datos con models.py.
+
+5.👑 Explorar panel admin con superusuario.
+
+
+
+✅ SECCIÓN 16: VERIFICACIÓN DE APRENDIZAJE
+-------------------------------------------
+
+❓ ¿Qué comando crea una nueva aplicación?
+	→ python manage.py startapp nombre_app
+
+❓ ¿Dónde se registra la aplicación?
+	→ En INSTALLED_APPS dentro de settings.py
+
+❓ ¿Dónde se escribe la lógica?
+	→ En views.py
+
+❓ ¿Dónde se definen las URLs de la app?
+	→ En urls.py dentro de la carpeta de la app
+
+❓ ¿Cómo se conecta la app al proyecto?
+	→ Usando include() en el urls.py del proyecto
+
+❓ ¿Qué URL debemos visitar?
+	→ http://localhost:8000/hola/
+
+
+
+🎉 SECCIÓN 17: ¡FELICITACIONES!
+--------------------------------
+
+Has creado exitosamente tu primera aplicación en Django. Ahora entendés:
+
+✅ La estructura básica de un proyecto Django.
+✅ Cómo crear y registrar una aplicación.
+✅ Cómo funcionan las vistas (views).
+✅ Cómo funciona el sistema de URLs (urls.py).
+✅ Cómo conectar una aplicación al proyecto principal.
+✅ Cómo probar el servidor de desarrollo.
+
+Este conocimiento es la base para crear aplicaciones web más complejas con Django.
+Cada proyecto que hagas seguirá exactamente la misma estructura.
+
+
+
+=================================================================
+📱 FIN DEL TUTORIAL - APLICACIÓN "HOLAMUNDO" CREADA CON ÉXITO 🎉
+=================================================================
