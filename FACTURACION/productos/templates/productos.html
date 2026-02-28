@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Listado de Productos</title>
+
+            {# ➕ AGREGADO: Un mínimo de estilo para que no sea tan feo. #}
+            <style>
+                body 
+                    {  font-family: Arial, sans-serif; margin: 40px; }
+
+                h1 
+                    {    color: #333; }
+
+                ul 
+                    {    list-style: none; padding: 0; }
+
+                li { 
+                        background: #f4f4f4; 
+                        margin: 10px 0; 
+                        padding: 15px; 
+                        border-radius: 5px;
+                        border-left: 5px solid #007bff;
+                    }
+
+                .precio 
+                    { 
+                        font-weight: bold; 
+                        color: #28a745; 
+                        font-size: 1.2em;
+                    }
+
+                .stock 
+                    { 
+                        color: #666; 
+                        font-size: 0.9em;
+                    }
+            </style>
+    </head>
+
+    <body>
+        <h1>🍞 Productos disponibles 🧈</h1>
+        
+        {# ➕ AGREGADO: Mostramos la lista de productos. #}
+            <ul>
+                {% comment %}
+                # ======================================================================= #
+                  🧉 EXPLICACIÓN: Esto es un bucle en el lenguaje de templates de Django.
+                  'productos' es la variable que pasamos desde la vista en el contexto.
+                  Django itera sobre cada producto y genera un <li> por cada uno.
+                  Por ahora mostramos la representación __str__ del modelo, después lo 
+                  vamos a mejorar con detalles lindos.
+                # ======================================================================= #
+                {% endcomment %}
+
+                {% for producto in productos %}
+                    <li>
+                        <strong>{{ producto }}</strong> 
+                         
+                        {% comment %}
+                        # ================================================= #
+                          Mostramos producto.__str__ que definimos antes.
+                          Esto es solo para probar, después vamos a mostrar
+                          los campos por separado con más estilo.
+                        # ================================================= #
+                        {% endcomment %}
+                        
+                    </li>
+                {% empty %}
+                    {# ➕ AGREGADO: Si no hay productos, mostramos un mensaje. #}
+                    <li>No hay productos cargados aún 😢</li>
+                {% endfor %}
+            </ul>
+
+        {# ➕ AGREGADO: Versión temporal con representación del QuerySet #}
+        <h2>🔍 Versión de prueba (solo para desarrolladores):</h2>
+        <p>El QuerySet que viene de la base de datos es:</p>
+        <pre>{{ productos }}</pre>
+        <p><small>👆 Esto es un objeto QuerySet, después vamos a mostrarlo lindo.</small></p>
+        
+        {% comment %}
+        # ================================================================== #
+          🧉 EXPLICACIÓN DEL TEMPLATE: 
+          {{ productos }} en el <pre> muestra la representación del QuerySet,
+          que por ahora es algo como <QuerySet [<Producto: Yerba...>, ...]>.
+          Esto es útil para debugging, pero NO es lo que ve el usuario final.
+          El bucle {% for %} es la forma correcta de mostrar los datos.
+        # ================================================================== #
+        {% endcomment %}
+        
+    </body>
+</html>

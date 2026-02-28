@@ -1,0 +1,1186 @@
+=======================================================================
+🚀 PRIMEROS PASOS CON DJANGO: CONSTRUYENDO UN SISTEMA DE FACTURACIÓN 🚀
+=======================================================================
+
+¡Buenas! Vamos a arrancar con el proyecto de facturación. Te voy a guiar paso a paso como si estuviéramos codeando juntos, con mate de por medio, claro. 🧉
+
+
+PASO 1: Dar a luz el proyecto 🚀
+================================
+
+Comando ejecutado:
+-----------------
+
+	django-admin startproject FACTURACION
+
+Explicación detallada:
+---------------------
+
+¡Acá estamos creando el esqueleto de nuestra aplicación! 🦴 El comando django-admin startproject FACTURACION le dice a Django: "Che, haceme el favor de crear un nuevo proyecto con el nombre FACTURACION". Django automáticamente genera una carpeta con ese nombre y, dentro, un montón de archivos clave que necesitamos para que todo funcione. Es como tener los cimientos de la casa antes de empezar a levantar las paredes. Es importante porque nos ahorra tener que crear toda esta estructura de carpetas y archivos a mano, que es un montón y es fácil pifiarla. 📁
+
+Estructura de carpetas después del paso:
+---------------------------------------
+
+Después de ejecutar este comando, tu árbol de directorios se va a ver así. Fijate que el comando se ejecuta desde el lugar donde querés que viva el proyecto:
+
+. (Directorio donde ejecutaste el comando, por ej: /home/usuario/proyectos/)
+└── FACTURACION/
+    ├── manage.py
+    └── FACTURACION/          # <--- Este es el paquete de Python de nuestro proyecto.
+        ├── __init__.py
+        ├── settings.py
+        ├── urls.py
+        └── wsgi.py
+
+Consejo/curiosidad:
+------------------
+
+¿Sabías que podés usar guiones bajos en los nombres de los proyectos, como mi_proyecto_facturacion? Django lo permite, pero después tenés que tener cuidado al importar cosas porque los guiones medios (mi-proyecto) no son válidos en Python. Siempre es buena práctica usar nombres que sean también identificadores válidos de Python. Yo prefiero usar mayúsculas para el nombre del proyecto, como hicimos acá, o usar guiones bajos. ¡Eso ya va en gustos! 😉
+
+
+PASO 2: Entrando a la cancha ⚽
+===============================
+
+Comando ejecutado:
+-----------------
+
+	cd FACTURACION
+
+Explicación detallada:
+---------------------
+
+Con cd FACTURACION (Change Directory) nos estamos metiendo adentro de la carpeta raíz del proyecto que acabamos de crear. Es como agarrar la llave, abrir la puerta de nuestra nueva casa y poner un pie adentro. 🚪 Ahora estamos posicionados en el lugar correcto para empezar a correr los comandos propios de Django, como manage.py. Es importante porque casi todas las tareas que hagamos de ahora en más (crear aplicaciones, correr el servidor, etc.) las vamos a ejecutar desde acá adentro. Si no lo hacemos, los comandos no van a encontrar la configuración del proyecto y nos van a saltar errores. 💥
+
+Estructura de carpetas después del paso:
+---------------------------------------
+
+La estructura es la misma, ¡pero ahora estamos parados adentro! 😄 La terminal ahora muestra que estamos en .../FACTURACION$. O sea, nuestro "directorio de trabajo" ahora es la carpeta raíz.
+
+. (Directorio donde ejecutaste el comando, por ej: /home/usuario/proyectos/)
+└── FACTURACION/                <--- ¡ESTAMOS ACÁ ADENTRO! 📍
+    ├── manage.py
+    └── FACTURACION/
+        ├── __init__.py
+        ├── settings.py
+        ├── urls.py
+        └── wsgi.py
+
+Consejo/curiosidad:
+------------------
+
+Si en cualquier momento te olvidás dónde estás parado, usá pwd (Print Working Directory) en Linux/macOS o cd sin argumentos en Windows para mostrar la ruta actual. Y si querés ver qué hay en la carpeta, usá ls (Linux/macOS) o dir (Windows). ¡Nunca está de más orientarse! 🧭
+
+
+PASO 3: Argentinizando el asunto 🇦🇷
+===================================
+
+Comando ejecutado:
+-----------------
+
+No es un comando, editamos el archivo FACTURACION/settings.py con nuestro editor favorito (VS Code, Sublime, Vim, el que sea).
+
+Explicación detallada:
+---------------------
+
+Estamos tocando el corazón de la configuración de nuestro proyecto: el settings.py. Acá le decimos a Django cómo queremos que se comporte. Al cambiar LANGUAGE_CODE a 'es-ar' le estamos pidiendo que los mensajes automáticos del sistema (como los de error del admin) nos los muestre en español de Argentina. ¡Chau "Invalid form", hola "Formulario inválido"! 🙌 Y al poner TIME_ZONE en 'America/Argentina/Buenos_Aires' nos aseguramos de que todas las operaciones con fechas y horas (como la de una factura, por ejemplo) se guarden y muestren en nuestro huso horario. Es fundamental para no descontar facturas a las 3 de la tarde cuando acá son las 3 de la mañana. 😉
+
+Código modificado (con comentarios):
+-----------------------------------
+
+	# ✏️MODIFICACIÓN: Cambio de idioma a Español Argentina 🧉
+	# Original: LANGUAGE_CODE = 'en-us'
+	LANGUAGE_CODE = 'es-ar'
+
+	# ✏️MODIFICACIÓN: Ajuste de zona horaria a Argentina 🕒
+	# Original: TIME_ZONE = 'UTC'
+	TIME_ZONE = 'America/Argentina/Buenos_Aires'
+
+
+	USE_I18N = True
+
+	USE_TZ = True
+
+	# ... (resto del código)
+
+	# ========================================================== #
+	# 🧉 EXPLICACIÓN: Con estos cambios, logramos que el sistema
+	# hable en nuestro idioma y respete nuestro horario.
+	# Fundamental para un sistema de facturación argentino.
+	# ========================================================== #
+
+Estructura de carpetas después del paso:
+---------------------------------------
+
+¡La estructura de carpetas no cambia! Pero el archivo settings.py ahora tiene nuestra config personalizada.
+
+FACTURACION/
+├── manage.py
+└── FACTURACION/
+    ├── __init__.py
+    ├── settings.py          <--- (archivo modificado).
+    ├── urls.py
+    └── wsgi.py
+
+Consejo/curiosidad:
+------------------
+
+Además de es-ar, podés probar otros códigos como es-mx o en-us para ver cómo cambia el idioma. Sobre la zona horaria, es buena práctica usar siempre la zona por región/ciudad (como hicimos) en lugar de usar un offset fijo como '-03:00', porque Django entiende y maneja automáticamente los cambios por horario de verano si los hubiera (aunque en gran parte de Argentina no se usa, igual es más correcto).
+
+
+PASO 4: Prendemos los motores 🏁
+================================
+
+Comando ejecutado:
+-----------------
+
+	python manage.py runserver
+
+(En algunas instalaciones, si tenés Python 3 como único, puede ser python3 manage.py runserver).
+
+Explicación detallada:
+---------------------
+
+¡Este es el momento de la verdad! Con python manage.py runserver le estamos diciendo a Django: "Dale, levantá el servidor de desarrollo que viene incluído". 🚀 Este servidor liviano nos permite ver nuestra aplicación en el navegador mientras la estamos construyendo. Cada vez que guardemos un cambio en el código, se va a reiniciar solo (aunque a veces hay que darle un toque, sobre todo al agregar archivos nuevos). Es importantísimo para poder ir viendo el progreso en tiempo real sin tener que montar un servidor web como Apache o Nginx. Vas a ver una salida en la terminal que dice algo como Starting development server at http://127.0.0.1:8000/. Si abrís esa dirección en tu navegador, ¡vas a ver la página de bienvenida de Django con el cohete despegando! 🚀
+
+Estructura de carpetas después del paso:
+---------------------------------------
+
+La estructura de carpetas sigue igual. El servidor no crea archivos nuevos en tu proyecto.
+
+FACTURACION/
+├── manage.py
+└── FACTURACION/
+    ├── __init__.py
+    ├── settings.py
+    ├── urls.py
+    └── wsgi.py
+
+Consejo/curiosidad:
+------------------
+
+Por defecto, el servidor corre en el puerto 8000. Si por algún motivo ese puerto está ocupado, podés cambiarlo fácil. Por ejemplo, para usar el puerto 8080, el comando sería python manage.py runserver 8080. También podés hacer que escuche en todas las interfaces de red de tu PC para que otros dispositivos de la misma red (como tu celular) puedan acceder, usando python manage.py runserver 0.0.0.0:8000. ¡Ojo! Esto es solo para desarrollo, no para producción. 🔥
+
+
+PASO 5: Creando al primer ser en nuestra base de datos 🧙‍♂️
+=========================================================
+
+¡Sigamos con la movida! Ya tenemos el servidor corriendo y el proyecto argentinizado. Ahora vamos a crear al primer habitante de nuestro sistema: el superusuario. 👤 (All Mighty User 🦸).
+
+Comando ejecutado:
+-----------------
+
+	python manage.py createsuperuser
+
+Explicación detallada:
+---------------------
+
+ste comando es como el "hágase la luz" de nuestro proyecto. 💡 Lo que hace es crear un usuario con poderes absolutos dentro del sistema. Un superusuario puede entrar al panel de administración y hacer literalmente cualquier cosa: crear, modificar y borrar cualquier registro de cualquier tabla. Es el administrador total, el que tiene la sartén por el mango. 🍳 Es importante porque sin un superusuario no podríamos acceder al panel de admin, y el panel de admin es una de las herramientas más piolas que tiene Django para manejar los datos de nuestra aplicación sin tener que programar una interfaz desde cero.
+
+Lo que se ve en pantalla durante la creación:
+--------------------------------------------
+
+Cuando ejecutás el comando, la terminal te va a guiar paso a paso. Acá te muestro cómo sería la interacción:
+
+	python manage.py createsuperuser
+	Nombre de usuario (leave blank to use 'tu_usuario'): admin
+	Dirección de correo electrónico: admin@example.com
+	Password: ••••••••   (cuando escribís la contraseña, no se ve nada por seguridad)
+	Password (again): ••••••••
+	Superuser created successfully.
+
+Detalles importantes:
+--------------------
+
+- Nombre de usuario: Ponemos admin (fácil de recordar).
+
+- Email: Podemos poner uno ficticio por ahora, como admin@example.com.
+
+- Contraseña: Acá va la magia. Cuando escribís cthulhu2026 (o la que quieras), la terminal no muestra ni asteriscos para que nadie de afuera pueda ver cuántos caracteres tiene tu contraseña. Es normal, no está trabada, está escribiendo pero en modo sigilo. 🤫
+
+- Django te va a avisar si la contraseña es muy común o muy corta, pero te deja seguir igual (le decimos que sí con 'y').
+
+Estructura del proyecto después del paso:
+----------------------------------------
+
+¡Acá viene un concepto clave! La estructura de carpetas de nuestro proyecto no cambia en absoluto. Pero en la base de datos (que por ahora es el archivo db.sqlite3 que Django crea automáticamente al hacer la primera migración), se agregó un registro en la tabla auth_user. Es decir, el cambio no está a la vista en los archivos, sino en la base de datos. 📦
+
+FACTURACION/
+├── db.sqlite3                 <--- ¡Apareció este archivo! (la base de datos).
+├── manage.py
+└── FACTURACION/
+    ├── __init__.py
+    ├── settings.py
+    ├── urls.py
+    └── wsgi.py
+
+Consejo/curiosidad:
+------------------
+
+Si querés ver el registro que se creó sin entrar al admin (todavía), podés usar el comando python manage.py shell para abrir una consola interactiva de Django y consultar la base de datos. Sería algo así:
+
+	from django.contrib.auth.models import User
+	user = User.objects.get(username='admin')
+	print(user.email, user.is_superuser)
+
+
+PASO 6: Entrando al centro de comando 🎮
+========================================
+
+Comando ejecutado:
+-----------------
+
+Abrir el navegador y navegar a: http://127.0.0.1:8000/admin
+(Asegurate de tener el servidor corriendo con python manage.py runserver).
+
+Explicación detallada:
+---------------------
+
+¡Llegamos al sanctasanctórum! El panel de administración de Django es una de sus características más famosas y queridas. Es un interfaz web completamente funcional que Django te regala sin que escribas una sola línea de código (bueno, casi). Acá vas a poder gestionar todos los modelos (tablas) que vayas creando en tus aplicaciones. Es como tener un "Excel" pero mucho más copado y conectado directamente a tu base de datos. 📊
+
+Descripción del panel una vez que entrás:
+----------------------------------------
+
+1. Al entrar a http://127.0.0.1:8000/admin, te aparece una pantalla de login. Ponés las credenciales que creaste en el paso 5: usuario admin, contraseña cthulhu2026. 🔑
+
+2. Después de loguearte, ves la página principal del admin. Por defecto (sin ninguna app nuestra creada), vas a ver una sola sección llamada Autenticación y Autorización (o algo similar en inglés si no te tomaste el tiempo de cambiar el idioma en el paso 3, ¡pero nosotros lo cambiamos! así que estará en español). 🇦🇷
+
+3. Dentro de esa sección, hay dos enlaces:
+
++ Usuarios: Acá podés ver y editar todos los usuarios registrados. Si entrás, vas a encontrar a nuestro amigo admin que acabamos de crear. 👤
+
++ Grupos: Sirve para organizar permisos, pero por ahora no lo vamos a tocar.
+
+El panel tiene un diseño limpio y funcional. Arriba a la derecha, un botón para cambiar la contraseña y otro para cerrar sesión. Es intuitivo y fácil de navegar. 🧭
+
+¿Por qué es importante el superusuario y el panel de administración?
+--------------------------------------------------------------------
+
+- Para hacer pruebas: Mientras desarrollamos, podemos crear datos de prueba (clientes, productos, etc.) directamente desde el admin sin tener que escribir código o SQL. ⚡
+
+- Para gestionar el sistema: En producción, podés tener usuarios "staff" que entren al admin a cargar facturas, gestionar clientes, etc. Es un backend administrativo completo.
+
+- Para entender el modelo de datos: El admin te muestra cómo Django ve tus datos, y te permite interactuar con ellos de manera visual. Es una gran herramienta de aprendizaje y depuración. 🐛
+
+- El superusuario es la llave maestra: Sin él, no podrías entrar al admin ni ejecutar ciertos comandos que requieren permisos especiales. Es el primer usuario que necesitás para arrancar a poblar el sistema.
+
+Consejo/curiosidad:
+------------------
+
+Fijate que el admin ya viene en español (si hicimos bien el paso 3). ¡Qué placer ver "Usuarios" en lugar de "Users"! 😍 Además, si querés personalizar cómo se ven tus modelos en el admin (qué campos mostrar, cómo ordenarlos, etc.), después vas a poder hacerlo creando archivos admin.py en tus aplicaciones.
+
+
+PASO 7: Nace la app de productos 🏭
+===================================
+
+Vamos a crear nuestra primera aplicación dentro del proyecto. Acá es donde la cosa empieza a tomar forma y dejamos de lado la teoría para meternos de lleno en la lógica de nuestro facturador. 🧱
+
+Comando ejecutado:
+-----------------
+
+	python manage.py startapp productos
+
+Explicación detallada:
+---------------------
+
+¡Manos a la obra! Con startapp productos le estamos diciendo a Django: "Che, creame una aplicación nueva que se llame productos". Pero, ¿qué es una app en Django? Acá va la analogía: 🏢
+
+Pensá en el proyecto (FACTURACION) como una empresa grande. La empresa tiene distintos departamentos que se encargan de cosas específicas:
+
++ El departamento de Productos se encarga de todo lo relacionado con los artículos que se venden: su nombre, precio, stock, etc.
+
++ Más adelante podríamos tener el departamento de Clientes, el de Facturación, el de Reportes...
+
+En Django, cada uno de esos "departamentos" es una app. Una app es un módulo de Python que encapsula un conjunto de funcionalidades relacionadas. Tiene sus propios modelos (la estructura de datos), sus vistas (la lógica de negocio), sus templates (el HTML) y sus URLs. Es como un "mini-proyecto" dentro del proyecto grande, y lo mejor es que son reutilizables: si algún día hacés otro sistema de ventas, podrías copiar y pegar la app de productos y ya tenés media cancha hecha. 🔄
+
+Estructura de carpeta después del paso:
+--------------------------------------
+
+¡Mirá cómo creció la familia! Django nos creó una carpeta productos con todo lo necesario para empezar a desarrollar:
+
+FACTURACION/
+├── db.sqlite3
+├── manage.py
+├── FACTURACION/             	# Carpeta del proyecto (configuración).
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+└── productos/                	<--- Nuestra nueva app. 🎉
+    ├── __init__.py
+    ├── admin.py               	# Para configurar cómo se ve en el admin.
+    ├── apps.py               	# Configuración de la app.
+    ├── migrations/           	# Acá Django guarda los cambios de la BD.
+    │   └── __init__.py
+    ├── models.py             	# Donde definimos las tablas (ej: Producto).
+    ├── tests.py              	# Para probar que todo funciona.
+    └── views.py              	# La lógica de negocio.
+
+Consejo/curiosidad:
+------------------
+
+Fijate que Django crea el archivo apps.py con una clase que configura la app. No le des mucha bola ahora, pero es útil cuando querés hacer configuraciones más avanzadas. También notá la carpeta migrations/: ¡es una de las magias más grandes de Django! Ahí se van a guardar los pasos necesarios para construir y modificar la base de datos sin escribir una sola línea de SQL. 🪄
+
+
+PASO 8: Presentando la app en la empresa 📋
+===========================================
+
+Comando ejecutado:
+-----------------
+
+Editamos el archivo FACTURACION/settings.py para agregar nuestra app a la lista de aplicaciones instaladas.
+
+Explicación detallada:
+---------------------
+
+Acá estamos haciendo el equivalente a mandar un memo a toda la empresa diciendo: "Atención, tenemos un nuevo departamento: Productos. A partir de ahora, cuando el sistema haga cosas, tenga en cuenta a este departamento". 📢
+
+Cuando agregamos 'productos' a INSTALLED_APPS, le estamos diciendo a Django: "Esta app forma parte de nuestro proyecto. Incluí sus modelos cuando hagas migraciones, mostrala en el panel de admin si corresponde, y tenela en cuenta para todo lo que sigue". Sin este paso, Django ignora olímpicamente a nuestra app, por más que la carpeta exista. Es como tener un empleado al que no le pagan: está, pero no hace nada. 😅
+
+Código modificado en settings.py:
+--------------------------------
+
+	# Application definition
+
+	INSTALLED_APPS = [
+    		'django.contrib.admin',          	# App del panel de administración.
+    		'django.contrib.auth',           	# App para manejar usuarios.
+    		'django.contrib.contenttypes',   	# App para manejar tipos de contenido.
+    		'django.contrib.sessions',       	# App para manejar sesiones.
+    		'django.contrib.messages',      	# App para mensajes entre requests.
+    		'django.contrib.staticfiles',     	# App para archivos estáticos (CSS, JS).
+
+    		# ✏️ MODIFICACIÓN: Agregamos nuestra primera app al proyecto.
+    		# ➕ AGREGADO: La app 'productos' nos va a permitir gestionar
+    		#   todo lo relacionado con los artículos a facturar.
+    		'productos',
+	]
+
+	# ============================================================ #
+	# 🧉 EXPLICACIÓN: Al incluir 'productos' en INSTALLED_APPS,
+	# Django reconoce oficialmente a nuestra app. Ahora cuando
+	# hagamos migraciones, va a buscar models.py dentro de
+	# la carpeta productos y creará las tablas correspondientes.
+	# Además, si definimos algo en admin.py, aparecerá en el panel.
+	# ============================================================ #
+
+Estructura de carpetas después del paso:
+---------------------------------------
+
+La estructura de archivos y carpetas no cambia. Solo modificamos el contenido de un archivo existente. Pero el cambio es profundo: ahora Django "ve" nuestra app.
+
+FACTURACION/
+├── db.sqlite3
+├── manage.py
+├── FACTURACION/
+│   └── settings.py          <--- (archivo modificado).
+└── productos/
+
+Consejo/curiosidad:
+------------------
+
+Fijate que hay un montón de apps ya instaladas por defecto (django.contrib.admin, auth, etc.). Esas son las que vienen con Django y le dan toda la funcionalidad base. Podríamos sacarlas si quisiéramos (por ejemplo, si no queremos usar el admin), pero son tan útiles que casi siempre las dejamos. Nuestra app productos ahora está al mismo nivel que ellas. 🥇
+
+
+PASO 9: El chequeo médico del proyecto 🩺
+=========================================
+
+Comando ejecutado:
+-----------------
+
+	python manage.py check
+
+Explicación detallada:
+---------------------
+
+Este comando es como ir al médico para un chequeo general. 🏥 check examina todo tu proyecto de Django (la configuración, las apps, los modelos que definamos después) y te avisa si encuentra algún problema sin tocar la base de datos ni ejecutar la aplicación.
+
+Es re útil porque:
+
++ Detecta errores comunes antes de que explote todo en producción. 💣
+
++ Verifica que los nombres de las apps estén bien escritos.
+
++ Chequea que no haya conflictos entre modelos.
+
++ Te avisa si olvidaste poner un método requerido o si hay algo raro en la configuración.
+
+Si todo está bien, no dice nada (o tira algún mensaje informativo). Si hay un error, te lo marca con colorcitos y todo para que lo corrijas. Es una red de seguridad que te salva de muchos dolores de cabeza. 😌
+
+Lo que se ve en pantalla:
+------------------------
+
+Si hicimos todo bien (y por ahora es difícil pifiarla), la salida va a ser algo así:
+
+	python manage.py check
+	System check identified no issues (0 silenced).
+
+Ese mensajito es música para los oídos de cualquier desarrollador Django. 🎵 Significa "todo en orden, podés seguir tranquilo".
+
+Si hubiera un error (por ejemplo, si hubiéramos escrito mal 'productos' en INSTALLED_APPS), veríamos algo como:
+
+	python manage.py check
+	ModuleNotFoundError: No module named 'productosss'
+
+Ahí nos estaría diciendo "che, la app 'productosss' no existe, revisá lo que escribiste". ¡Un salvavidas! 🛟
+
+Estructura de carpetas después del paso:
+---------------------------------------
+
+Sin cambios. El comando check es solo de verificación, no modifica nada.
+
+Consejo/curiosidad:
+------------------
+
+python manage.py check se ejecuta automáticamente cada vez que corremos runserver (por eso a veces vemos ese mensajito cuando arrancamos el servidor). Pero es buena práctica ejecutarlo manualmente después de hacer cambios grandes en la configuración o antes de hacer un deploy, para asegurarnos de que no metimos la pata. También podés hacerlo más específico, por ejemplo python manage.py check productos para que revise solo esa app. 🎯
+
+
+PASO 10: El nacimiento de Producto (el ADN de nuestra app) 🧬
+=============================================================
+
+¡Uf, acá estamos entrando en la parte más jugosa! Vamos a crear nuestro primer modelo, generar las migraciones y ver cómo cobra vida en la base de datos. Preparate, porque esto es pura magia negra de Django (Gandalf, la tenés adentro...). 🧙‍♂️✨
+
+Comando ejecutado:
+-----------------
+
+Editamos el archivo productos/models.py para definir nuestro primer modelo.
+
+Explicación detallada:
+---------------------
+
+Un modelo en Django es la representación en Python de una tabla de la base de datos. Cada clase que hereda de models.Model se convierte en una tabla, y cada atributo de clase (que es una instancia de algún models.Campo) se convierte en una columna. Es como si estuviéramos dibujando el plano de una casa 🏠: acá van a ir los dormitorios (campos), acá el baño, etc. Después, Django se encarga de construir la casa (la tabla) en la base de datos usando ese plano.
+
+Código completo en productos/models.py:
+--------------------------------------
+
+	from django.db import models
+
+
+	# Create your models here.
+	class Producto(models.Model):
+    
+    	# Modelo que representa un producto facturable.
+    	# Cada instancia de esta clase será un registro en la tabla 'productos_producto'.
+    
+    		# ➕ AGREGADO: Nombre del producto (ej: "Yerba Mate Amanda").
+    		nombre = models.CharField(
+        		max_length=100,
+        		verbose_name="Nombre del producto"
+    		)
+    
+    		# ➕ AGREGADO: Descripción más detallada (puede ser opcional).
+    		descripcion = models.TextField(
+        		blank=True,  # Puede estar vacío.
+        		null=True,   # Permite NULL en la BD.
+        		verbose_name="Descripción"
+    		)
+    
+    		# ➕ AGREGADO: Precio unitario en pesos argentinos.
+    		precio = models.DecimalField(
+        		max_digits=10,        # Hasta 99999999.99
+        		decimal_places=2,      # Dos decimales (centavos).
+        		verbose_name="Precio (ARS)"
+    		)
+    
+    		# ➕ AGREGADO: Control de stock.
+    		stock = models.IntegerField(
+        		default=0,
+        		verbose_name="Cantidad en stock"
+    		)
+    
+    		# ➕ AGREGADO: Fecha de creación (se autocompleta).
+    		fecha_creacion = models.DateTimeField(
+        		auto_now_add=True,
+        		verbose_name="Fecha de alta"
+    		)
+    
+    		# ➕ AGREGADO: Fecha de última modificación (se actualiza solo).
+    		fecha_actualizacion = models.DateTimeField(
+        		auto_now=True,
+        		verbose_name="Última modificación"
+    		)
+
+    		def __str__(self):
+        
+        		# Representación en string del objeto (lo que se ve en el admin).
+        		return f"{self.nombre} - ${self.precio}"
+
+    		class Meta:
+        		verbose_name = "Producto"
+        		verbose_name_plural = "Productos"
+        		ordering = ['nombre']  # Orden alfabético por nombre.
+
+    		# ============================================================ #
+    		# 🧉 EXPLICACIÓN: Este modelo define la estructura de nuestros
+    		# productos. Cada campo tiene un tipo específico que Django
+    		# traduce al tipo de dato correspondiente en la BD.
+    		# El método __str__ es clave para que se vea lindo en el admin.
+    		# ============================================================ #
+
+Diagrama UML del modelo Producto:
+--------------------------------
+
+Te dejo el gráfico en la carpeta UML/ModeloProducto.drawio para que le eches un ojito. 👀
+
+Estructura de carpetas después del paso:
+---------------------------------------
+
+Solo modificamos un archivo:
+
+productos/
+├── models.py          <--- (archivo modificado).
+├── __init__.py
+├── admin.py
+├── apps.py
+├── migrations/
+│   └── __init__.py
+├── tests.py
+└── views.py
+
+Consejo/curiosidad:
+------------------
+
+Fijate que usamos DecimalField para el precio en lugar de FloatField. ¿Por qué? Porque los floats en computación tienen problemas de precisión (0.1 + 0.2 no siempre da 0.3 exacto). Para plata, siempre usamos DecimalField para no descontar de más o de menos. ¡Plata no se negocia! 💰
+
+
+PASO 11: Preparando las valijas para la mudanza (makemigrations) 🧳
+===================================================================
+
+Comando ejecutado:
+-----------------
+
+	python manage.py makemigrations productos
+
+Explicación detallada:
+---------------------
+
+makemigrations es como hacer un borrador de los cambios que queremos aplicar en la base de datos. Django inspecciona nuestros modelos, los compara con el estado actual de las migraciones (si las hay) y genera un archivo Python con las instrucciones necesarias para transformar la base de datos. Es como si le dijéramos: "Che, cambié el plano de la casa, anotá todos los pasos que hay que hacer para que la casa real se parezca al nuevo plano". 📝
+
+Cuando ejecutamos makemigrations productos, le estamos diciendo: "Solo mirá la app productos, no las otras". Es más específico y evita confusiones.
+
+Lo que se ve en pantalla:
+------------------------
+
+	python manage.py makemigrations productos
+	Migrations for 'productos':
+  		productos/migrations/0001_initial.py
+    			- Create model Producto
+
+¿Qué archivo se genera y dónde?
+-------------------------------
+
+Django crea un archivo en productos/migrations/0001_initial.py. Este archivo contiene código Python que describe las operaciones necesarias: CreateModel con todos los campos que definimos. Si lo abrís (no es necesario tocarlo nunca), vas a ver algo como:
+
+	migrations.CreateModel(
+    		name='Producto',
+    		fields=[
+        		('id', models.BigAutoField(...)),  # Django agrega un ID automático
+        		('nombre', models.CharField(...)),
+        		('descripcion', models.TextField(...)),
+        		# ... etc
+    		],
+	)
+
+Estructura de carpetas después del paso:
+---------------------------------------
+
+Aparece un nuevo archivo dentro de migrations/:
+
+productos/
+└── migrations/
+    ├── __init__.py
+    └── 0001_initial.py          <--- Archivo generado automáticamente.
+
+Consejo/curiosidad:
+------------------
+
+Los archivos de migración son código Python común y corriente. Si querés, podés abrirlos y ver qué tienen. Incluso podrías modificarlos (aunque no es recomendable). Cada migración tiene un número secuencial (0001, 0002, etc.) y depende de las anteriores. Es como un sistema de control de versiones para tu base de datos. 📚
+
+
+PASO 12: Ejecutando la mudanza (migrate) 🚚
+===========================================
+
+Comando ejecutado:
+-----------------
+
+	python manage.py migrate
+
+Explicación detallada:
+---------------------
+
+migrate es el que hace el trabajo pesado. Toma todas las migraciones pendientes (los "borradores") y las ejecuta contra la base de datos, creando o modificando tablas, columnas, índices, etc. Es el momento en que el plano se convierte en casa de verdad. 🏗️
+
+Cuando ejecutás migrate sin especificar una app, Django aplica todas las migraciones pendientes de todas las apps (incluyendo las de Django, como admin y auth). Por eso la primera vez que lo corrés, ves que crea un montón de tablas.
+
+Lo que se ve en pantalla:
+------------------------
+
+python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, productos, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying admin.0003_logentry_add_action_flag_choices... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying auth.0009_alter_user_last_name_max_length... OK
+  Applying auth.0010_alter_group_name_max_length... OK
+  Applying auth.0011_update_proxy_permissions... OK
+  Applying auth.0012_alter_user_first_name_max_length... OK
+  Applying productos.0001_initial... OK       <--- ¡Nuestra migración!
+  Applying sessions.0001_initial... OK
+
+El ciclo MODIFICAR → MAKEMIGRATIONS → MIGRATE:
+---------------------------------------------
+
+Este es el ciclo de vida de los cambios en la base de datos con Django:
+
+1. MODIFICAR: Cambiás tus modelos en models.py (agregás un campo, cambiás un tipo, creás un modelo nuevo). ✏️
+
+2. MAKEMIGRATIONS: Generás el "borrador" de los cambios (python manage.py makemigrations). Django crea un archivo con las instrucciones. 📝
+
+3. MIGRATE: Aplicás los cambios a la base de datos (python manage.py migrate). Django ejecuta las instrucciones y actualiza el esquema. 🚀
+
+Es un workflow simple pero poderoso. Podés deshacer cambios, aplicarlos en producción, compartirlos con otros desarrolladores, etc.
+
+Estructura de carpetas después del paso:
+---------------------------------------
+
+No hay cambios en las carpetas. Pero en la base de datos (db.sqlite3) apareció una nueva tabla llamada productos_producto (Django nombra las tablas como nombreapp_nombremodelo).
+
+Consejo/curiosidad:
+------------------
+
+Si querés ver qué tablas se crearon, podés usar un cliente de SQLite (como DB Browser for SQLite) o directamente desde la terminal con:
+
+	sqlite3 db.sqlite3 ".tables"
+
+Vas a ver algo como:
+
+auth_group                  auth_user_user_permissions
+auth_group_permissions      django_admin_log
+auth_permission             django_content_type
+auth_user                   django_migrations
+auth_user_groups            django_session
+auth_user_user_permissions   productos_producto     <--- Nuestra tabla.
+
+
+PASO 13: Presentando Producto en el panel de admin 🎪
+=====================================================
+
+Comando ejecutado:
+-----------------
+
+Editamos el archivo productos/admin.py para registrar nuestro modelo.
+
+Explicación detallada:
+---------------------
+
+Por más que hayamos creado el modelo y la tabla, Django no muestra automáticamente nuestro modelo en el panel de administración. Hay que "presentarlo" explícitamente. El archivo admin.py de cada app es donde configuramos cómo se van a ver y comportar nuestros modelos en el admin. Es como decirle: "Che, este modelo Producto quiero poder gestionarlo desde el panel". 🎛️
+
+Código en productos/admin.py:
+----------------------------
+
+	from django.contrib import admin
+	# ➕ AGREGADO: Importamos nuestro modelo Producto.
+	from .models import Producto
+
+	# Register your models here.
+
+	# ➕ AGREGADO: Registramos el modelo para que aparezca en el admin.
+	admin.site.register(Producto)
+
+	# ==================================================================== #
+	# 🧉 EXPLICACIÓN: Con esta simple línea, Django agrega automáticamente
+	# una interfaz completa para nuestro modelo Producto en el admin.
+	# Después podemos personalizarla con más opciones, pero por ahora con 
+	# esto alcanza para empezar a cargar datos.
+	# ==================================================================== #
+
+Estructura de carpetas después del paso:
+---------------------------------------
+
+Solo modificamos admin.py:
+
+productos/
+├── admin.py           <--- (archivo modificado).
+├── models.py
+└── ...
+
+Consejo/curiosidad:
+------------------
+
+Si querés una personalización rápida sin crear clases complejas, podés usar decoradores como @admin.register(Producto) arriba de una clase que herede de admin.ModelAdmin. Pero la línea simple admin.site.register(Producto) ya te da alta, baja, modificación y listado básico. Después, cuando el proyecto crezca, vas a querer personalizar más. Pero por ahora, ¡simple es mejor! 🎯
+
+
+PASO 14: Poblando el mundo con productos 🛒
+===========================================
+
+Comando ejecutado:
+-----------------
+
+1.Asegurate que el servidor esté corriendo: python manage.py runserver
+
+2. Entrá a http://127.0.0.1:8000/admin
+
+3. Logueate con admin / Cthulhu
+
+4. En la sección "Productos", hacé clic en "Agregar" y cargá los productos.
+
+Descripción de cómo se ven los productos en el admin:
+----------------------------------------------------
+
+Al entrar al admin, ahora vas a ver una nueva sección debajo de "Autenticación y Autorización" llamada "Productos" (el nombre de nuestra app). Dentro, un enlace a "Productos" (el plural del modelo). Al hacer clic, ves una lista vacía con un botón naranja arriba a la derecha que dice "AGREGAR PRODUCTO". 🍊
+
+Cuando agregás un producto, el formulario muestra todos los campos que definimos (nombre, descripción, precio, stock). Los campos de fecha se auto-completan, así que ni los ves (por ahora). Una vez que guardás, volvés a la lista y ves el producto representado por lo que devuelve el método __str__: algo como "Yerba Mate Amanda - $5200.00". ¡Mucho más lindo que ver "Producto object (1)"! 😍
+
+Los 3 productos de ejemplo:
+--------------------------
+
+Vamos a cargar la mercadería básica de cualquier despensa que se precie:
+
+1. Yerba Mate 🧉
+	+ Nombre: Yerba Mate Amanda
+	+ Descripción: Yerba mate suave con palo, paquete de 1kg
+	+ Precio: 5200.00
+	+ Stock: 50
+
+2. Dulce de Leche 🍯
+	+ Nombre: Dulce de Leche La Serenísima
+	+ Descripción: Clásico repostero, pote de 400g
+	+ Precio: 2700.00
+	+ Stock: 30
+
+3. Manteca 🧈
+	+ Nombre: Manteca Tonadita
+	+ Descripción: Manteca con sal, paquete de 200g
+	+ Precio: 3200.00
+	+ Stock: 25
+
+Cómo queda la tabla en la base de datos:
+---------------------------------------
+
+Después de cargar estos productos, la tabla productos_producto en SQLite tiene estos registros (visto desde SQL):
+
+ id	nombre			descripción		precio		stock	fecha_creacion			fecha_actualizacion
+============================================================================================================================================
+ 1	Yerba Mate Amanda	Yerba mate suave con 	5200.00		50	2026-02-27 10:30:00.123456	2026-02-27 10:30:00.123456
+				palo, paquete de 1kg				
+					
+ 2	Dulce de Leche 		Clásico repostero, 	2700.00		30	2026-02-27 10:31:00.123456	2026-02-27 10:31:00.123456
+	La Serenísima		pote de 400g
+						
+ 3	Manteca Tonadita	Manteca con sal, 	3200.00		25	2026-02-27 10:32:00.123456	2026-02-27 10:32:00.123456
+				paquete de 200g				
+
+Notas:
+-----
+
++ Django agrega automáticamente una columna id como clave primaria (auto-incremental).
+
++ Los nombres de columna son los mismos que los nombres de campo en el modelo.
+
++ Las fechas se guardan en la BD en UTC (después Django las convierte a la zona horaria que configuramos, America/Argentina/Buenos_Aires, cuando las mostramos).
+
+Consejo/curiosidad:
+------------------
+
+Fijate que cuando cargás un producto en el admin, después de guardarlo te aparece un mensaje verde diciendo "El producto 'Yerba Mate Amanda - $5200.00' fue agregado correctamente". Ese mensaje usa el __str__ del modelo. Si no hubiéramos definido __str__, mostraría algo horrible como "Producto object (1)". ¡Los detalles hacen la diferencia! ✨
+
+
+PASO 15: La vista que trae los datos desde la BD 👁️
+===================================================
+
+¡Llegamos a la recta final de esta primera etapa! Vamos a crear la interfaz visible para el usuario, donde nuestros productos van a salir de la base de datos y mostrarse en el navegador. Esto es lo más parecido a la magia que hace que un backend cobre vida. ✨
+
+Comando ejecutado:
+-----------------
+
+Editamos el archivo productos/views.py para crear nuestra primera vista.
+
+Explicación detallada:
+---------------------
+
+Una vista en Django es una función (o clase) que recibe una petición web (request) y devuelve una respuesta web (response). Es el cerebro que decide qué datos hay que buscar, cómo procesarlos y qué template usar para mostrarlos. Es como el mozo de un restaurante: toma el pedido (request), va a la cocina (base de datos), busca los platos (productos) y te los sirve en una bandeja (template). 👨‍🍳
+
+Código completo en productos/views.py:
+-------------------------------------
+
+	from django.shortcuts import render
+	# ➕ AGREGADO: Importamos el modelo Producto para poder consultar la base de datos.
+	from .models import Producto
+
+	# Create your views here.
+
+	def listado_productos(request):
+    
+    		# Vista que obtiene todos los productos de la base de datos y los envía al 
+    		# template para ser mostrados.
+    
+    		# Flujo de datos:
+    		#     1. Recibe un request HTTP
+    		#     2. Consulta todos los registros de Producto (SELECT * FROM productos_producto).
+    		#     3. Prepara un diccionario con el contexto (los datos a enviar al template).
+    		#     4. Renderiza el template 'productos.html' con ese contexto.
+    		#     5. Devuelve la respuesta HTTP al navegador.
+    
+    		# ➕ AGREGADO: Obtenemos todos los productos de la base de datos.
+    		# Esto ejecuta: SELECT * FROM productos_producto;
+    		productos = Producto.objects.all()
+    
+    		# ➕ AGREGADO: Creamos un diccionario con los datos para pasar al template.
+    		# La clave 'productos' es la que vamos a usar en el template.
+    		contexto = {
+        		'productos': productos,
+    		}
+    
+    		# ➕ AGREGADO: Renderizamos el template y le pasamos el contexto.
+    		return render(request, 'productos.html', contexto)
+
+	# =========================================================================== #
+	# 🧉 EXPLICACIÓN: Esta vista es lo más básico que podemos hacer:
+	# traer todos los registros de una tabla y mostrarlos.
+	# Producto.objects.all() es el equivalente a SELECT * FROM productos_producto.
+	# El diccionario 'contexto' es la comunicación entre la vista y el template.
+	# =========================================================================== #
+
+Estructura de carpetas después del paso:
+---------------------------------------
+
+Modificamos views.py:
+
+productos/
+├── views.py           <--- (archivo modificado).
+├── models.py
+├── admin.py
+└── …
+
+Consejo/curiosidad:
+------------------
+
+Producto.objects.all() devuelve un QuerySet, que es como una lista superpoderosa de Django. No ejecuta la consulta a la base de datos hasta que realmente la necesitás (por ejemplo, cuando iterás sobre ella en el template). Esto se llama "evaluación perezosa" (lazy evaluation) y ayuda a optimizar el rendimiento. 🦥
+
+
+PASO 16: El template que muestra los datos al mundo 🌐
+======================================================
+
+Comando ejecutado:
+-----------------
+
+Primero creamos la carpeta de templates y después el archivo HTML:
+
+	mkdir -p productos/templates
+
+Luego creamos/editor el archivo productos/templates/productos.html
+
+Explicación detallada:
+---------------------
+
+Un template es un archivo (generalmente HTML) con placeholders especiales donde Django va a insertar los datos que le pasamos desde la vista. Es como un formulario en blanco donde después completamos la información con lapicera. 📄✒️
+
+Por convención, Django busca templates dentro de una carpeta llamada templates dentro de cada app. Así mantenemos todo organizado.
+
+Código completo en productos/templates/productos.html:
+-----------------------------------------------------
+
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Listado de Productos</title>
+
+            {# ➕ AGREGADO: Un mínimo de estilo para que no sea tan feo. #}
+            <style>
+                body 
+                    {  font-family: Arial, sans-serif; margin: 40px; }
+
+                h1 
+                    {    color: #333; }
+
+                ul 
+                    {    list-style: none; padding: 0; }
+
+                li { 
+                        background: #f4f4f4; 
+                        margin: 10px 0; 
+                        padding: 15px; 
+                        border-radius: 5px;
+                        border-left: 5px solid #007bff;
+                    }
+
+                .precio 
+                    { 
+                        font-weight: bold; 
+                        color: #28a745; 
+                        font-size: 1.2em;
+                    }
+
+                .stock 
+                    { 
+                        color: #666; 
+                        font-size: 0.9em;
+                    }
+            </style>
+    </head>
+
+    <body>
+        <h1>🍞 Productos disponibles 🧈</h1>
+        
+        {# ➕ AGREGADO: Mostramos la lista de productos. #}
+            <ul>
+                {% comment %}
+                # =================================================================== #
+                🧉 EXPLICACIÓN: Esto es un bucle en el lenguaje de templates de Django.
+                'productos' es la variable que pasamos desde la vista en el contexto.
+                Django itera sobre cada producto y genera un <li> por cada uno.
+                Por ahora mostramos la representación __str__ del modelo, después lo 
+                vamos a mejorar con detalles lindos.
+                # =================================================================== #
+                {% endcomment %}
+
+                {% for producto in productos %}
+                    <li>
+                        <strong>{{ producto }}</strong> 
+                         
+                        {% comment %}
+                        # ============================================== #
+                        Mostramos producto.__str__ que definimos antes.
+                        Esto es solo para probar, después vamos a mostrar
+                        los campos por separado con más estilo.
+                        # ============================================== #
+                        {% endcomment %}
+                        
+                    </li>
+                {% empty %}
+                    {# ➕ AGREGADO: Si no hay productos, mostramos un mensaje. #}
+                    <li>No hay productos cargados aún 😢</li>
+                {% endfor %}
+            </ul>
+
+        {# ➕ AGREGADO: Versión temporal con representación del QuerySet #}
+        <h2>🔍 Versión de prueba (solo para desarrolladores):</h2>
+        <p>El QuerySet que viene de la base de datos es:</p>
+        <pre>{{ productos }}</pre>
+        <p><small>👆 Esto es un objeto QuerySet, después vamos a mostrarlo lindo.</small></p>
+        
+        {% comment %}
+        # ================================================================ #
+        🧉 EXPLICACIÓN DEL TEMPLATE: 
+        {{ productos }} en el <pre> muestra la representación del QuerySet,
+        que por ahora es algo como <QuerySet [<Producto: Yerba...>, ...]>.
+        Esto es útil para debugging, pero NO es lo que ve el usuario final.
+        El bucle {% for %} es la forma correcta de mostrar los datos.
+        # ================================================================ #
+        {% endcomment %}
+        
+    </body>
+</html>
+
+Estructura de carpetas después del paso:
+---------------------------------------
+
+Aparece la carpeta templates con nuestro archivo HTML:
+
+productos/
+├── templates/             	<--- Carpeta nueva.
+│   └── productos.html      	<--- Archivo nuevo.
+├── views.py
+├── models.py
+├── admin.py
+└── ...
+
+Consejo/curiosidad:
+------------------
+
+El sistema de templates de Django tiene su propio lenguaje con {% %} para lógica (como for o if) y {{ }} para mostrar variables. Está deliberadamente limitado para que no pongas lógica de negocio en el template. Si necesitás hacer algo complejo, mejor hacerlo en la vista y pasar el resultado ya procesado. 🧠
+
+
+PASO 17: Conectando la URL con la vista 🧭
+==========================================
+
+Comando ejecutado:
+-----------------
+
+Editamos el archivo FACTURACION/urls.py (la URL principal del proyecto).
+
+Explicación detallada:
+---------------------
+
+Las URLs son como el mapa de una ciudad. Cuando alguien escribe una dirección (ej: /productos/), Django mira en este archivo para saber a qué vista tiene que enviar esa petición. Es el "portero" del edificio: "Ah, vos querés productos? Andá al segundo piso, vista listado_productos". 🚪
+
+Código completo en FACTURACION/urls.py:
+--------------------------------------
+
+	from django.contrib import admin
+	from django.urls import path
+	# ✏️ MODIFICACIÓN: Importamos la vista que creamos en la app productos.
+	from productos.views import listado_productos
+
+
+	urlpatterns = [
+    		path('admin/', admin.site.urls),
+    		# ➕ AGREGADO: Ruta para ver el listado de productos.
+    		# Cuando alguien visite /productos/, Django ejecuta la función
+    		# listado_productos de productos.views
+    		path('productos/', listado_productos, name='listado_productos'),
+	]
+
+	# ============================================================== #
+	# 🧉 EXPLICACIÓN: Cada entrada en urlpatterns es una ruta.
+	# - El primer argumento es el patrón de URL (sin el dominio).
+	# - El segundo es la función vista a ejecutar.
+	# - El tercero (name) es opcional pero muy útil para referenciar
+	#   esta URL desde otros lugares (templates, redirecciones, etc.)
+	# ============================================================== #
+
+Estructura de carpetas después del paso:
+---------------------------------------
+
+Modificamos el archivo de URLs del proyecto:
+
+FACTURACION/
+└── FACTURACION/
+    └── urls.py           <--- (archivo modificado).
+
+Consejo/curiosidad:
+------------------
+
+El parámetro name en las rutas es una buena práctica. Después podés hacer {% url 'listado_productos' %} en los templates y aunque cambies la URL (de /productos/ a /catalogo/), todos los enlaces siguen funcionando. Es como tener un acceso directo en lugar de la dirección exacta. 🔗
+
+
+PASO 18: El momento de la verdad - Verlo en el navegador 🎉
+===========================================================
+
+Comando ejecutado:
+-----------------
+
+1. Asegurate que el servidor esté corriendo: python manage.py runserver
+
+2. Abrí el navegador en: http://127.0.0.1:8000/productos/
+
+Explicación detallada:
+---------------------
+
+¡Llegó el momento! Cuando entrás a esa URL, pasa todo esto (sin que lo veas):
+
+1. El navegador hace un request a http://127.0.0.1:8000/productos/ 🌐
+
+2. Django recibe el request y mira en urls.py 🔍
+
+3. Encuentra que productos/ corresponde a listado_productos 🎯
+
+4. Ejecuta la función listado_productos en views.py ⚙️
+
+5. La vista consulta la BD: Producto.objects.all() 🗄️
+
+6. La vista pasa los productos al template productos.html 📤
+
+7. Django renderiza el template (mezcla HTML con los datos) 🎨
+
+8. Devuelve una respuesta HTML al navegador 📨
+
+9. ¡El navegador muestra la página! 🖥️
+
+Lo que se ve en el navegador:
+----------------------------
+
+En la parte superior, vas a ver una lista con los 3 productos que cargamos, mostrando su representación __str__:
+
+🍞 Productos disponibles 🧈
+
+• Yerba Mate Amanda - $5200.00
+• Dulce de Leche La Serenísima - $2700.00
+• Manteca Tonadita - $3200.00
+
+Y debajo, la sección de "prueba para desarrolladores" muestra:
+
+🔍 Versión de prueba (solo para desarrolladores):
+El QuerySet que viene de la base de datos es:
+
+<QuerySet [<Producto: Yerba Mate Amanda - $5200.00>, 
+           <Producto: Dulce de Leche La Serenísima - $2700.00>, 
+           <Producto: Manteca Tonadita - $3200.00>]>
+
+Esto último es útil para verificar que efectivamente estamos recibiendo los datos, pero obviamente NO es lo que queremos mostrar al usuario final. En el futuro, vamos a reemplazar el {{ producto }} del bucle por algo como:
+
+	<h3>{{ producto.nombre }}</h3>
+	<p>{{ producto.descripcion }}</p>
+	<span class="precio">${{ producto.precio }}</span>
+	<span class="stock">Stock: {{ producto.stock }}</span>
+
+Explicación de por qué esto es solo una prueba:
+----------------------------------------------
+
+Mostrar el QuerySet directamente ({{ productos }}) o solo {{ producto }} (que llama al __str__) es útil para desarrolladores porque confirma que los datos están llegando desde la BD hasta el template. Pero para un usuario real, necesitamos un HTML bien formado, con estilos, y mostrando cada campo por separado. Esto es solo el "hilito de tierra" que tiramos para asegurarnos que todo el circuito funciona. Después viene la parte linda de maquetar. 🎨
+
+Diagrama de flujo de una solicitud web:
+--------------------------------------
+
+A este diagrama te lo dejo en UML/DiagramaFlujoWeb.drawio 😉
+
+
+Estructura final completa del proyecto 📁
+=========================================
+
+Después de todos estos pasos, nuestro proyecto tiene esta pinta:
+
+FACTURACION/                  	# Carpeta raíz del proyecto.
+├── db.sqlite3                	# Base de datos SQLite.
+├── manage.py                 	# Comandos de Django.
+├── FACTURACION/             	# Configuración del proyecto.
+│   ├── __init__.py
+│   ├── settings.py          	# Configuración (idioma, apps instaladas).
+│   ├── urls.py               	# URLs principales (admin, productos).
+│   └── wsgi.py
+└── productos/                	# Nuestra app.
+    ├── __init__.py
+    ├── admin.py              	# Registro del modelo en admin.
+    ├── apps.py               	# Configuración de la app.
+    ├── models.py              	# Modelo Producto.
+    ├── tests.py
+    ├── views.py              	# Vista listado_productos.
+    ├── migrations/           	# Migraciones de la BD.
+    │   ├── __init__.py
+    │   └── 0001_initial.py  	# Migración inicial.
+    └── templates/            	# Templates HTML.
+        └── productos.html    	# Template del listado.
+
+
+Resumen del flujo completo 🚀
+=============================
+
+1. Modelo (models.py): Definimos la estructura de datos (Producto). 📐
+
+2. Migraciones (makemigrations + migrate): Llevamos esa estructura a la BD. 🏗️
+
+3. Admin (admin.py): Registramos para poder cargar datos fácilmente. 📝
+
+4. Vista (views.py): Creamos la lógica para obtener los datos. 🧠
+
+5. Template (templates/productos.html): Diseñamos cómo se ven. 🎨
+
+6. URL (urls.py): Conectamos la URL con la vista. 🔗
+
+7. Navegador: El usuario ve el resultado final. 👀
+
+¡Y así, señores, hemos creado nuestro primer circuito completo en Django! Desde la base de datos hasta el navegador, pasando por cada capa de la aplicación. Esto es solo el comienzo, pero ya tenemos la base para un sistema de facturación que puede crecer hasta donde nos imaginemos. 💪🔥
+
+
+
+
+
+
+
+
+
+
+
