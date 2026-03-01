@@ -1,0 +1,100 @@
+===========================================================================
+              🐍 ¡BIENVENIDO AL TUTORIAL DE FUNCIONES! 🐍
+===========================================================================
+
+¡Hola, che! Si estás acá es porque querés entender de una vez por todas qué 
+onda con las funciones en Python. Pensá en las funciones como "maquinitas": 
+vos les das algo (o no), ellas hacen un proceso, y a veces te devuelven un 
+resultado. 🚀
+
+Acá tenés la explicación detallada de los 10 ejemplos del programa:
+
+
+1. 📢 FUNCIÓN SIMPLE (Sin parámetros ni retorno)
+   =============================================
+   Es el nivel más básico. La llamás y ejecuta una acción fija. No recibe 
+   información de afuera ni te devuelve nada para guardar.
+ 
+   👉 IDEAL PARA: Mostrar carteles o limpiar la pantalla.
+
+
+2. 👤 CON PARÁMETROS (Pasando data)
+   ================================
+   Acá la función tiene "huecos" (variables) que vos llenás cuando la usás. 
+   Es personalizada. Si le pasás "Juan", te saluda a Juan; si le pasás "Marta", 
+   saluda a Marta.
+
+   👉 IDEAL PARA: Procesar datos específicos que cambian cada vez.
+
+
+3. 🧮 CON RETORNO (La famosa palabra 'return')
+   ===========================================
+   Esta es clave. La función hace un cálculo y "te lo tira de vuelta". 
+   Ese resultado lo podés guardar en una variable para usarlo más tarde. 
+   Sin el 'return', el resultado se pierde adentro de la función. 📈
+
+   👉 IDEAL PARA: Operaciones matemáticas o procesos que generan un dato nuevo.
+
+
+4. ⚙️ PARÁMETROS POR DEFECTO (El "por las dudas")
+   ==============================================
+   A veces querés que un dato sea opcional. Si el usuario no te da el dato, 
+   la función usa uno que vos ya dejaste seteado. ¡Evita que el programa explote!
+
+   👉 IDEAL PARA: Configuraciones que casi siempre son iguales.
+
+
+5. 📦 RETORNO MÚLTIPLE (Combo 2x1)
+   ===============================
+   En Python, una función puede devolver varias cosas separadas por coma. 
+   Es como ir al kiosco y que te den el alfajor y el vuelto al mismo tiempo. 🍫
+
+   👉 IDEAL PARA: Cuando un proceso genera varios resultados relacionados.
+
+
+6. 🎒 ARGUMENTOS VARIABLES (*args)
+   ===============================
+   ¿Qué pasa si no sabés si te van a pasar 2, 10 o 50 datos? Usás el asterisco. 
+   Python mete todo adentro de una bolsa (una tupla) y vos la recorrés.
+
+   👉 IDEAL PARA: Sumar una lista de números de cualquier tamaño.
+
+
+7. 🏷️ DICCIONARIO DE ARGUMENTOS (**kwargs)
+   =======================================
+   Es como el anterior, pero con "etiquetas". No pasás solo el dato, pasás 
+   "clave=valor". Esto permite identificar qué es cada cosa que mandás.
+
+   👉 IDEAL PARA: Crear perfiles de usuario o bases de datos rápidas.
+
+
+8. ⚡ FUNCIONES LAMBDA (Las "flash")
+   =================================
+   Son funciones anónimas (no tienen nombre) que se escriben en una sola línea. 
+   Son para cosas tan cortitas que te da fiaca escribir un 'def' entero. 🏎️
+
+   👉 IDEAL PARA: Filtros rápidos o cálculos matemáticos simples.
+
+
+9. 🪆 FUNCIÓN DENTRO DE OTRA (Anidadas)
+   ====================================
+   Podés definir una función adentro de otra. La función "hija" solo vive 
+   mientras la "madre" se está ejecutando. Ayuda a que el código sea prolijo.
+
+   👉 IDEAL PARA: Ocultar procesos lógicos que no querés que nadie más use.
+
+
+10. 🔄 RECURSIVIDAD (El rulo loco)
+    ==============================
+    Es cuando una función se llama a sí misma. Ojo acá: siempre necesita 
+    una "condición de corte" para no quedarse loopeando para siempre. 🌀
+
+    👉 IDEAL PARA: Problemas que se pueden dividir en subproblemas iguales 
+       (como el factorial o recorrer carpetas).
+
+
+===========================================================================
+           💡 CONSEJO DE ORO: No intentes memorizar todo. 
+           Copiá el código del main.py, rompé cosas, cambiale los 
+           mensajes y fijate qué pasa. ¡Así se aprende de verdad! 🧉
+===========================================================================
